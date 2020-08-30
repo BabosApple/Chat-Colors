@@ -35,21 +35,113 @@ class Main extends PluginBase implements Listener {
 
     public $purple = [];
 
-    public function onCommand(CommandSender $sender, Command $command, string $label, array $args): bool{
-
+    public function onCommand(CommandSender $sender, Command $command, string $label, array $args): bool {
         switch($command->getName()){
             case "ccolors":
                 if($sender instanceof Player){
                     if($sender->hasPermission("ccolors.use")){
-                        $this->ccolors($sender);
-                    } else {
-                        $seder->sendMessage("§cYou dont have permission to use this command!");
+                        if($this->getConfig()->get("form-api-usage") == "true"){
+                            $this->ncolors($sender);
+                        } else {
+                            if(!isset($args[0])){
+                                $sender->sendMessage("§7[§aChat§6Colors§7]§f §eList of NicknameColors commands:\n §9/ncolors list - §aShows colors list\n§9 /ncolors use [color] - §aChange your nickname color");
+                                return true;
+                            } else {
+                                if(strtolower($args[0]) == "list"){
+                                    $sender->sendMessage("§7[§aChat§6Colors§7]§f §eList of Nickname Colors:\n §f• §fWhite\n §f• §cRed\n §f• §bBlue\n §f• §eYellow\n §f• §6Orange\n §f• §dPurple");
+                                }
+                                if(strtolower($args[0]) == "use"){
+                                    if(!isset($args[1])){
+                                        $sender->sendMessage("§7[§aChat§6Colors§7]§f §cPlease use: §9/ncolors use [colorname]");
+                                        return true;
+                                    } else {
+                                        switch(strtolower($args[1])){
+                                            case "white":
+                                                unset($this->red[$player->getName()]);
+                                                unset($this->blue[$player->getName()]);
+                                                unset($this->green[$player->getName()]);
+                                                unset($this->yellow[$player->getName()]);
+                                                unset($this->orange[$player->getName()]);
+                                                unset($this->purple[$player->getName()]);
+                                                $this->white[$player->getName()] = $player->getName();
+                                                $player->sendMessage("§7[§aChat§6Colors§7] §aYour chat message has been changed to §fWhite!");
+                                                break;
+
+                                            case "red":
+                                                unset($this->white[$player->getName()]);
+                                                unset($this->blue[$player->getName()]);
+                                                unset($this->green[$player->getName()]);
+                                                unset($this->yellow[$player->getName()]);
+                                                unset($this->orange[$player->getName()]);
+                                                unset($this->purple[$player->getName()]);
+                                                $this->red[$player->getName()] = $player->getName();
+                                                $player->sendMessage("§7[§aChat§6Colors§7] §aYour chat message has been changed to §cRed!");
+                                                break;
+
+                                            case "blue":
+                                                unset($this->red[$player->getName()]);
+                                                unset($this->white[$player->getName()]);
+                                                unset($this->green[$player->getName()]);
+                                                unset($this->yellow[$player->getName()]);
+                                                unset($this->orange[$player->getName()]);
+                                                unset($this->purple[$player->getName()]);
+                                                $this->blue[$player->getName()] = $player->getName();
+                                                $player->sendMessage("§7[§aChat§6Colors§7] §aYour chat message has been changed to §bBlue!");
+                                                break;
+
+                                            case "yellow":
+                                                unset($this->red[$player->getName()]);
+                                                unset($this->blue[$player->getName()]);
+                                                unset($this->green[$player->getName()]);
+                                                unset($this->white[$player->getName()]);
+                                                unset($this->orange[$player->getName()]);
+                                                unset($this->purple[$player->getName()]);
+                                                $this->yellow[$player->getName()] = $player->getName();
+                                                $player->sendMessage("§7[§aChat§6Colors§7] §aYour chat message has been changed to §eYellow!");
+                                                break;
+
+                                            case "orange":
+                                                unset($this->red[$player->getName()]);
+                                                unset($this->blue[$player->getName()]);
+                                                unset($this->green[$player->getName()]);
+                                                unset($this->yellow[$player->getName()]);
+                                                unset($this->white[$player->getName()]);
+                                                unset($this->purple[$player->getName()]);
+                                                $this->orange[$player->getName()] = $player->getName();
+                                                $player->sendMessage("§7[§aChat§6Colors§7] §aYour chat message has been changed to §6Orange!");
+                                                break;
+
+                                            case "purple":
+                                                unset($this->red[$player->getName()]);
+                                                unset($this->blue[$player->getName()]);
+                                                unset($this->green[$player->getName()]);
+                                                unset($this->yellow[$player->getName()]);
+                                                unset($this->orange[$player->getName()]);
+                                                unset($this->white[$player->getName()]);
+                                                $this->purple[$player->getName()] = $player->getName();
+                                                $player->sendMessage("§7[§aChat§6Colors§7] §aYour chat message has been changed to §dPurple!");
+                                                break;
+
+                                            case "green":
+                                                unset($this->red[$player->getName()]);
+                                                unset($this->blue[$player->getName()]);
+                                                unset($this->white[$player->getName()]);
+                                                unset($this->yellow[$player->getName()]);
+                                                unset($this->orange[$player->getName()]);
+                                                unset($this->purple[$player->getName()]);
+                                                $this->green[$player->getName()] = $player->getName();
+                                                $player->sendMessage("§7[§aChat§6Colors§7] §aYour chat message has been changed to §aGreen!");
+                                                break;
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
                     }
-                } else {
-                    $sender->sendMessage("§cPlease use this command in-game!");
                 }
         }
-    return true;
+        return true;
     }
 
     public function ccolors($player){
